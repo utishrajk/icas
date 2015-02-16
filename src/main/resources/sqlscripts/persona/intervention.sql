@@ -1,0 +1,1 @@
+INSERT INTO `intervention` (`id`,`cpt_code`,`description`,`notes`,`resolution_date`,`target_date`,`treatmentplan`) VALUES (1,'H0018','Behavioral health; short-term residential','intervention notes','2014-10-10 00:00:00','2014-11-11 00:00:00',1);

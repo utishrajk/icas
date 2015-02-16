@@ -1,0 +1,66 @@
+
+<div ng-include="headnavbar" ng-cloak></div>
+
+<div class="main-container" id="main-container" ng-class="{'display': enableDropDownMenu}" >
+    <script type="text/javascript">
+        try{ace.settings.check('main-container' , 'fixed')}catch(e){}
+    </script>
+
+    <div class="main-container-inner">
+        <div class="menu-toggler" id="menu-toggler" ng-click="toggleDropDownMenu()">
+            <span class="menu-text" ></span>
+        </div>
+
+        <div ng-include="sidenavbar" ng-cloak ></div>
+
+        <div class="main-content">
+
+            <div ng-include="breadcrums" ng-cloak></div>
+
+            <div class="page-content">
+                <!--<div class="page-header">-->
+                    <!--<h1>-->
+                        <!--<span ng-bind="currentPage"> </span>-->
+                        <!--<small>-->
+                            <!--<i class="icon-double-angle-right"></i>-->
+                            <!--overview-->
+                        <!--</small>-->
+                    <!--</h1>-->
+                <!--</div>&lt;!&ndash; /.page-header &ndash;&gt;-->
+                <div class="space-4"></div>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <!-- PAGE CONTENT BEGINS -->
+
+                                <div class="widget-box col-xs-12">
+                                    <div class="widget-header header-color-blue">
+                                        <h4>BHAM training video</h4>
+                                    </div>
+                                    <div class="widget-body">
+                                        <div class="widget-main">
+                                            <video width="100%"  height="100%" controls preload='metadata' >
+                                                <source  src="assets/video/small.ogv" type="video/ogg">
+                                                <source  src="assets/video/small.3gp" type="video/3gp">
+                                                <source  src="assets/video/small.flv" type="video/flv">
+                                                <source  src="assets/video/small.webm" type="video/webm">
+                                                <source  src="assets/video/small.mp4" type="video/mp4">
+                                                <p> Try this page in a modern browser! Or you can <a  href="assets/video/small.mp4">download the  video</a> instead.</p>
+                                            </video>
+                                        </div>
+                                    </div>
+                                </div>
+                        <!-- PAGE CONTENT ENDS -->
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.page-content -->
+
+            <!--<div ng-include="loginpage" ></div>-->
+
+        </div><!-- /.main-content -->
+
+    </div><!-- /.main-container-inner -->
+
+    <a href="" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse" ng-click="gotoTop()" >
+        <i class="icon-double-angle-up icon-only bigger-110"></i>
+    </a>
+</div><!-- /.main-container -->

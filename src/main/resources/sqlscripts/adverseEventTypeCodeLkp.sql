@@ -1,0 +1,9 @@
+insert into adverse_event_type_code (id, code, display_name, code_system_name, code_system) values (1, '420134006', 'Propensity to adverse reactions (disorder)', 'SNOMED CT', '2.16.840.1.113883.6.96');
+insert into adverse_event_type_code (id, code, display_name, code_system_name, code_system) values (2, '418038007', 'Propensity to adverse reactions to substance (disorder)', 'SNOMED CT', '2.16.840.1.113883.6.96');
+insert into adverse_event_type_code (id, code, display_name, code_system_name, code_system) values (3, '419511003', 'Propensity to adverse reactions to drug (disorder)', 'SNOMED CT', '2.16.840.1.113883.6.96');
+insert into adverse_event_type_code (id, code, display_name, code_system_name, code_system) values (4, '418471000', 'Propensity to adverse reactions to food (disorder)', 'SNOMED CT', '2.16.840.1.113883.6.96');
+insert into adverse_event_type_code (id, code, display_name, code_system_name, code_system) values (5, '419199007', 'Allergy to substance (disorder', 'SNOMED CT', '2.16.840.1.113883.6.96');
+insert into adverse_event_type_code (id, code, display_name, code_system_name, code_system) values (6, '416098002', 'Drug allergy (disorder)', 'SNOMED CT', '2.16.840.1.113883.6.96');
+insert into adverse_event_type_code (id, code, display_name, code_system_name, code_system) values (7, '414285001', 'Food allergy (disorder)', 'SNOMED CT', '2.16.840.1.113883.6.96');
+insert into adverse_event_type_code (id, code, display_name, code_system_name, code_system) values (8, '59037007', 'Drug intolerance (disorder)', 'SNOMED CT', '2.16.840.1.113883.6.96');
+insert into adverse_event_type_code (id, code, display_name, code_system_name, code_system) values (9, '235719002', 'Food intolerance (disorder)', 'SNOMED CT', '2.16.840.1.113883.6.96');

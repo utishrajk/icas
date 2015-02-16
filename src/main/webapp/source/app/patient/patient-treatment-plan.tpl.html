@@ -1,0 +1,187 @@
+<div ng-include="headnavbar" ng-cloak></div>
+
+<div class="main-container" id="main-container">
+    <script type="text/javascript">
+        try{ace.settings.check('main-container' , 'fixed')}catch(e){}
+    </script>
+
+    <div class="main-container-inner">
+        <a class="menu-toggler" id="menu-toggler" href="" ng-class="{'display': enableDropDownMenu}" ng-click="toggleDropDownMenu()">
+            <span class="menu-text" ></span>
+        </a>
+
+        <div ng-include="sidenavbar" ng-cloak ></div>
+
+        <div class="main-content">
+
+            <div ng-include="breadcrums" ng-cloak></div>
+
+            <div class="page-content">
+                <div ng-include="patientbanner" ng-cloak></div>
+
+                <div class="space-4"></div>
+
+                <div class="row">
+                    <div class="col-xs-12">
+
+                        <div class="table-responsive ">
+                            <div class="table-header">
+                                <span class="table-title">Treatment Plans</span>
+                            </div>
+                            <div class="modal-footer no-margin-top">
+                                <div class="col-sm-4 " >
+                                    <div class="dataTables_info pull-left no-margi" >
+                                        <label>
+                                            Display
+                                            <select size="1" ng-model="pageSize" ng-change="onPageSizeChange()" >
+                                                <option value="10">10</option>
+                                                <option value="25">25</option>
+                                                <option value="50">50</option>
+                                                <option value="100">100</option>
+                                            </select>
+                                            Records
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-8">
+                                    <div class="action-buttons field-height">
+                                        <label> Add Treatment Plan</label>
+                                        <a class="blue" href="#/patient/{{selectedPatientId}}/treatmentplanwizard" >
+                                            <i class="icon-plus-sign purple bigger-130"></i>
+                                        </a>
+                                        <span > | </span>
+                                        <label>Search</label>
+                                        <select size="1" ng-model="searchBy" ng-change="onSearch()" >
+                                            <option value="">-- All columns --</option>
+                                            <option value="planCreateTime">Date</option>
+                                            <option value="primaryDiagnosis">Primary Diagnosis</option>
+                                        </select>
+                                        <input type="text" name="search" ng-model="criteria" ng-change="onSearch()" placeholder="Search table" size="15" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-body no-padding" >
+                                <table id="sample-table-1" class="table table-striped table-bordered table-hover no-bottom-margin">
+                                    <thead>
+                                    <tr>
+                                        <th ng-click="sort('planCreateTime')">
+                                            Date <i ng-class="{'icon-chevron-up': isSortUp('planCreateTime'), 'icon-chevron-down': isSortDown('planCreateTime')}"></i>
+                                        </th>
+                                        <th ng-click="sort('primaryDiagnosis')">
+                                            Primary Diagnosis <i ng-class="{'icon-chevron-up': isSortUp('primaryDiagnosis'), 'icon-chevron-down': isSortDown('primaryDiagnosis')}"></i>
+                                        </th>
+                                        <th ng-click="sort('shortTermGoal')">
+                                            Goals <i ng-class="{'icon-chevron-up': isSortUp('shortTermGoal'), 'icon-chevron-down': isSortDown('shortTermGoal')}"></i>
+                                        </th>
+                                        <th ng-click="sort('treatmentPlan.objectives[0]')">
+                                            Objectives <i ng-class="{'icon-chevron-up': isSortUp('treatmentPlan.objectives[0]'), 'icon-chevron-down': isSortDown('treatmentPlan.objectives[0]')}"></i>
+                                        </th>
+                                        <th ng-click="sort('treatmentPlan.interventions[0].description')">
+                                            Interventions <i ng-class="{'icon-chevron-up': isSortUp('treatmentPlan.interventions[0].description'), 'icon-chevron-down': isSortDown('treatmentPlan.interventions[0].description')}"></i>
+                                        </th>
+
+                                        <th class="action-column-width">Actions</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr ng-repeat="treatmentPlan in filteredTreatmentplans = (treatmentplans | filter:composedCriteria | orderBy:natural(sortField):reverse) | pagination:(pageNo-1):pageSize">
+                                        <td>
+                                            {{ treatmentPlan.planCreateTime }}
+                                        </td>
+                                        <td>
+                                            Opioid Use Disorder, Moderate or Severe
+                                        </td>
+                                        <td>
+                                            {{ treatmentPlan.shortTermGoal}}
+                                        </td>
+                                        <td>
+                                            {{ treatmentPlan.objectives[0] }}
+                                        </td>
+                                        <td>
+                                            {{ addThreeDots (treatmentPlan.interventions[0].description) || " " }}
+                                        </td>
+
+                                        <td>
+                                        	<show-treatmentplan treatmentplan="treatmentPlan"  socialhistory="socialhistory" conditions="conditions" int id="treatmentplan-show-{{$index}}" ></show-treatmentplan>
+
+                                            <delete-treatmentplan planid="{{ treatmentPlan.id }}" ondelete="deleteTreatmentPlan(planId)" id="plan-delete-{{$index}}"></delete-treatmentplan>
+
+                                            <a class="blue" href="#/patient/{{patient.id}}/treatmentplan/{{treatmentPlan.id}}" id="patient-treatmentplan-{{$index}}">
+                                                <i class="icon-stethoscope bigger-130"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <tr ng-show="filteredTreatmentplans.length == 0">
+                                        <td colspan="8" class="center"> No Treatment Plan Found </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+
+                                <div class="modal-footer no-margin-top">
+                                    <div class="col-sm-4">
+                                         <span ng-show="filteredTreatmentplans.length > 0 " >
+                                            <div class="dataTables_info pull-left no-margi"> Showing {{startRecord}} to {{showPageSize}} of {{filteredTreatmentplans.length}} Treatment Plans </div>
+                                         </span>
+                                    </div>
+
+                                    <div class="col-sm-8">
+                                        <span ng-show="filteredTreatmentplans.length > 0" >
+                                             <span style="display: inline-block;height: 3em; text-align: left;">
+                                                 <span ng-if="paginationIndexError" class="red" style=" position: relative; top: 5%; padding-right: 0.5em;"> {{paginationIndexError}}</span>
+                                             </span>
+
+                                             <span class="pagination pull-right no-margin pagination-highlight">
+                                               <span class="label label-lg arrowed pointercursor" ng-disable="pageNo==firstPage" ng-class="{'label-primary': pageNo!=firstPage}">
+                                                    <span ng-click="setActivePage(firstPage, 0)">
+                                                        <i class="icon-single-angle-left"> </i>
+                                                        First
+                                                    </span>
+                                                </span>
+                                                 <span class="label label-lg pointercursor" ng-disable="pageNo==firstPage" ng-class="{'label-primary': pageNo!=firstPage}" >
+                                                    <span ng-click="setActivePage(pageNo, -1)">
+                                                        <i class=""> </i>
+                                                        Previous
+                                                    </span>
+                                                </span>
+                                               <span> <input type="text" ng-model="pageNo" size="2" style="height:24px;"> of {{lastPage}}</span>
+
+                                                  <span class="label label-lg pointercursor" ng-disable="pageNo==lastPage" ng-class="{'label-primary': pageNo!=lastPage}" >
+                                                    <span ng-click="setActivePage(pageNo, 1)">
+                                                        <i class=""></i>
+                                                        Next
+                                                    </span>
+                                                </span>
+
+                                                 <span class="label label-lg arrowed-right pointercursor" ng-disable="pageNo==lastPage" ng-class="{'label-primary': pageNo!=lastPage}" >
+                                                    <span ng-click="setActivePage(lastPage, 0)">
+                                                        <i class="icon-single-angle-right"></i>
+                                                        Last
+                                                    </span>
+                                                </span>
+                                            </span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <a href="" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse" ng-click="gotoTop()">
+        <i class="icon-double-angle-up icon-only bigger-110"></i>
+    </a>
+</div>
+
+
+<div id="dialog-confirm" class="hide">
+    <p class="bigger-110 bolder center grey">
+        <i class="icon-hand-right blue bigger-120"></i>
+        Are you sure?
+    </p>
+</div>
+
+<div id="dialog-treatmentplan-details" class="hide"  >
+</div><!-- #dialog-patient-labresult -->

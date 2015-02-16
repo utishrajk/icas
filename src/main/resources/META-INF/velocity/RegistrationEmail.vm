@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>ICAS</title>
+  </head>
+  <body>
+        <table>
+          <tr>
+            <td>
+              <p>
+                  Dear ${model.getFullName()},
+                  <br><br>
+                  Your registration is complete when you <a href="http://${model.getHostNameUrl()}/app/public/verify/${model.getEncodedToken()}">click here</a> to validate your email address.
+              </p>
+            </td>
+          </tr>
+        </table>
+  </body>
+</html>

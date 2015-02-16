@@ -1,0 +1,233 @@
+
+@invalidColor: red;
+
+@tableBorderMargin: 0;
+
+@highlight-border-color: #307ecc;
+@highlight-border-width : 3px;
+@highlight-border-style : solid;
+
+@rightAlign: right;
+@leftAlign: left;
+
+@infrontZ-Index: 9999;
+@behindZ-Index: 99999999;
+
+@statusWidth: 20%;
+@nameWidth: 25%;
+@dateWidth: 20;
+
+@searchHeight: 31px;
+
+@actionColumnWidth: 15%;
+
+@validationBorderWidth:6px;
+@validColor: #2ecc71;
+@invalidColor: #e74c3c;
+
+.no-bottom-margin {
+  margin-bottom: @tableBorderMargin;
+}
+
+.captionID {
+  text-align: @rightAlign;
+}
+
+.dataID {
+  text-align: @leftAlign;
+}
+
+.common-form-error {
+  color: @invalidColor;
+}
+
+.patient-form-error {
+  color: @invalidColor;
+}
+
+.highlight{
+  border: @highlight-border-color  @highlight-border-width @highlight-border-style;
+}
+
+.behind {
+  position:relative;
+  z-index: behindZ-Index
+}
+
+.infront {
+  position:relative;
+  z-index: @infrontZ-Index
+}
+
+.treatmentplans-table-name-width{
+  width:@nameWidth;
+}
+
+.treatmentplans-table-date-column-width{
+  width:@dateWidth;
+}
+
+.treatmentplans-table-status-column-width{
+  width:@statusWidth;
+}
+
+.showProfileMenu{
+  display: block;
+}
+
+.hideProfileMenu{
+  display: none;
+}
+
+//Ensures that all the input and select fields have the same height
+.field-height select, .field-height input {
+   height: @searchHeight;
+ }
+
+/* Form Validation*/
+//.formValidation{
+//  input[required].ng-pristine.ng-invalid, select[required].ng-pristine.ng-invalid  {
+//    border-left-width: @validationBorderWidth;
+//    border-color: @invalidColor;
+//  }
+//
+//  input.ng-invalid.ng-dirty, select.ng-invalid.ng-dirty {
+//    border-left-width: @validationBorderWidth;
+//    border-color:@invalidColor;
+//  }
+//  input.ng-valid.ng-dirty, select.ng-valid.ng-dirty  {
+//    border-left-width: @validationBorderWidth;
+//    border-color: @validColor;
+//  }
+//}
+
+.axis path, .axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.bar {
+  fill: steelblue;
+}
+
+.x.axis path {
+  display: none;
+}
+
+#service-chart svg {
+  height: 300px;
+}
+
+#readmission-chart svg {
+  height: 300px;
+}
+
+#counseled-chart svg {
+  height: 300px;
+}
+
+#emergency-chart svg {
+  height: 300px;
+}
+
+#admitted-chart svg {
+  height: 300px;
+}
+
+.pointercursor {
+  cursor: pointer;
+}
+
+.feedback {
+  tr { line-height: 40px; }
+}
+
+.rating {
+  font-size: 175%;
+  padding: 0 0.5em;
+}
+
+.rating > a {
+  text-decoration: none;
+}
+
+.rating .rating-highlight, .rating.rating-highlight:hover {
+  color: #F4914E;
+}
+
+.rating .rating-normal, .rating.rating-normal:hover {
+  color: #1878D9;
+}
+
+.fa {
+  display: inline-block;
+  font-family: FontAwesome;
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.fa-star:before {
+  content: "\f005";
+}
+
+.fa-star-o:before {
+  content: "\f006";
+}
+
+.action-column-width{
+  width:@actionColumnWidth;
+}
+
+.dropdown-preview {
+  margin:0 5px;
+  display:inline-block;
+}
+.dropdown-preview  > .dropdown-menu {
+  display: block;
+  position: static;
+  margin-bottom: 5px;
+}
+
+.rating-column-width {
+  width:25%;
+}
+
+.activity-action-column {
+  width:5%;
+}
+
+.no-entry{
+  padding-left:4px;
+}
+
+.patient-banner-info {
+  padding-bottom:40px;
+  padding-top:15px;
+  border: 1px solid #2679b5;
+}
+
+.patient-banner-value{
+  font-weight: bold;
+  padding-left: 5px;
+  font-size: 18px;
+}
+.patient-banner-label{
+  font-style: italic;
+  font-size: 18px;
+}
+
+.banner-patient-name{
+  font-weight: bold;
+}
+
+.infobutton{
+  width:15%;
+}
+
+.table-title{
+  font-size:20px;
+}

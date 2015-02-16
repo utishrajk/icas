@@ -1,0 +1,147 @@
+<div ng-include="headnavbar" ng-cloak></div>
+
+<div class="main-container" id="main-container">
+    <script type="text/javascript">
+        try {
+            ace.settings.check('main-container', 'fixed')
+        } catch (e) {
+        }
+    </script>
+
+    <div class="main-container-inner">
+        <a class="menu-toggler" id="menu-toggler" href="" ng-class="{'display': enableDropDownMenu}"
+           ng-click="toggleDropDownMenu()">
+            <span class="menu-text"></span>
+        </a>
+
+        <div ng-include="sidenavbar" ng-cloak></div>
+
+        <div class="main-content">
+
+            <div ng-include="breadcrums" ng-cloak></div>
+
+            <div class="page-content">
+
+                <div ng-include="patientbanner" ng-cloak></div>
+
+                <div class="space-4"></div>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <form novalidate class="formValidation form-horizontal field-height" name="allergyForm">
+
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label no-padding-right" for="adverseEventTypeCode">Allergy Type </label>
+
+                                <div class="col-sm-9">
+                                    <select ng-model="allergy.adverseEventTypeCode" name="adverseEventTypeCode" id="adverseEventTypeCode" required="true">
+                                        <option value="">-- Choose Type --</option>
+                                        <option ng-repeat="s in adverseEventTypeCodes" value="{{s.code}}" ng-selected="s.code == allergy.adverseEventTypeCode">{{s.displayName}}
+                                        </option>
+                                    </select>
+                                    <span ng-show="showError(allergyForm.adverseEventTypeCode, 'required')" class="patient-form-error">This field is required</span>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label no-padding-right" for="allergenCode">Allergen </label>
+
+                                <div class="col-sm-9">
+                                    <select ng-model="allergy.allergenCode" name="allergenCode" id="allergenCode" required="true">
+                                        <option value="">-- Choose Allergen --</option>
+                                        <option ng-repeat="s in allergenCodes" value="{{s.code}}" ng-selected="s.code == allergy.allergenCode">{{s.displayName}}
+                                        </option>
+                                    </select>
+                                    <span ng-show="showError(allergyForm.allergenCode, 'required')" class="patient-form-error">This field is required</span>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label no-padding-right" for="allergyReactionCode">Allergy Reaction </label>
+
+                                <div class="col-sm-9">
+                                    <select ng-model="allergy.allergyReactionCode" name="allergyReactionCode" id="allergyReactionCode" required="true">
+                                        <option value="">-- Choose Reaction --</option>
+                                        <option ng-repeat="s in allergyReactionCodes" value="{{s.code}}" ng-selected="s.code == allergy.allergyReactionCode">{{s.displayName}}
+                                        </option>
+                                    </select>
+                                    <span ng-show="showError(allergyForm.allergyReactionCode, 'required')" class="patient-form-error">This field is required</span>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label no-padding-right" for="allergyStartDate"> Allergy Start Date </label>
+                                <div class="col-sm-9">
+                                    <input type="text"  ng-pattern="datePattern" datepicker ng-model="allergy.allergyStartDate" id="allergyStartDate" name="allergyStartDate" placeholder="MM/DD/YYYY"/>
+                                    <span ng-show="allergyForm.allergyStartDate.$error['pattern']" class="patient-form-error">Invalid date</span>
+                                    <span ng-show="isFutureDate(allergy.allergyStartDate)" class="patient-form-error">Date should not be in the future</span>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label no-padding-right" for="allergyEndDate"> Allergy End Date </label>
+                                <div class="col-sm-9">
+                                    <input type="text"  ng-pattern="datePattern" datepicker ng-model="allergy.allergyEndDate" id="allergyEndDate" name="allergyEndDate" placeholder="MM/DD/YYYY"/>
+                                    <span ng-show="allergyForm.allergyEndDate.$error['pattern']" class="patient-form-error">Invalid date</span>
+                                    <span ng-show="isFutureDate(allergy.allergyEndDate)" class="patient-form-error">Date should not be in the future</span>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label no-padding-right" for="allergySeverityCode">Allergy Severity </label>
+
+                                <div class="col-sm-9">
+                                    <select ng-model="allergy.allergySeverityCode" name="allergySeverityCode" id="allergySeverityCode" required="true">
+                                        <option value="">-- Choose Reaction --</option>
+                                        <option ng-repeat="s in allergySeverityCodes" value="{{s.code}}" ng-selected="s.code == allergy.allergySeverityCode">{{s.displayName}}
+                                        </option>
+                                    </select>
+                                    <span ng-show="showError(allergyForm.allergySeverityCode, 'required')" class="patient-form-error">This field is required</span>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label no-padding-right" for="note"> Note </label>
+
+                                <div class="col-sm-9">
+                                    <textarea class="form-control" style="width: 230px; height: 60px;" ng-model="allergy.note" id="note" placeholder="Note..." value="note" />
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div>
+                                    <div class="clearfix form-actions">
+                                        <div class="col-md-offset-3 col-md-9">
+                                            <a class="btn" href="#/patient/{{selectedPatientId}}/allergies"
+                                               id="allergy-back-btn">
+                                                <i class="icon-arrow-left bigger-110"></i>
+                                                Back
+                                            </a>
+                                            <a class="btn btn-info" type="button" ng-click="save(allergy)"
+                                               ng-disabled="canSave()" id="allergy-save-btn">
+                                                <i class="icon-ok bigger-110"></i>
+                                                Submit
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <a href="" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse" ng-click="gotoTop()">
+        <i class="icon-double-angle-up icon-only bigger-110"></i>
+    </a>
+</div>
+
+
+
+
+
+

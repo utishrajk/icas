@@ -1,0 +1,205 @@
+<div class="sidebar" id="sidebar" ng-class="{'display': enableDropDownMenu}">
+    <script type="text/javascript">
+        try {
+            ace.settings.check('sidebar', 'fixed')
+        } catch (e) {
+        }
+    </script>
+
+    <div class="sidebar-shortcuts" id="sidebar-shortcuts">
+        <!--Commented for futher uses-->
+        <!--<div class="sidebar-shortcuts-large" id="sidebar-shortcuts-large">-->
+            <!--Commented for futher uses-->
+            <!--<button class="btn btn-success">-->
+                <!--<i class="icon-signal"></i>-->
+            <!--</button>-->
+
+            <!--<button class="btn btn-info">-->
+                <!--<i class="icon-pencil"></i>-->
+            <!--</button>-->
+
+            <!--<button class="btn btn-warning">-->
+                <!--<i class="icon-group"></i>-->
+            <!--</button>-->
+
+            <!--<button class="btn btn-danger">-->
+                <!--<i class="icon-cogs"></i>-->
+            <!--</button>-->
+        <!--</div>-->
+
+        <div class="sidebar-shortcuts-mini" id="sidebar-shortcuts-mini">
+            <span class="btn btn-success"></span>
+
+            <span class="btn btn-info"></span>
+
+            <span class="btn btn-warning"></span>
+
+            <span class="btn btn-danger"></span>
+        </div>
+    </div>
+    <!-- #sidebar-shortcuts -->
+
+    <ul class="nav nav-list bhamLeftBavBar">
+        <li ng-class="{'active': menuItem == 'training'}" ng-click="onSelectMenu('training')">
+
+            <a href="#/training" id="navbar-dashboard-lnk">
+                <i class="icon-home home-icon"></i>
+                <span class="menu-text"> Training </span>
+            </a>
+        </li>
+
+        <li ng-class="{'active': menuItem == 'careManager'}" ng-click="onSelectMenu('careManager')">
+
+            <a href="#/caremanager/{{account.id}}"  id="navbar-caremanager-lnk">
+                <i class="icon-file-text"></i>
+                <span class="menu-text"> Care Manager Profile </span>
+            </a>
+        </li>
+        <li ng-class="{'active': menuItem == 'organization'}" ng-click="onSelectMenu('organization')">
+
+            <a href="#/organization/1" id="navbar-organization-lnk">
+                <i class="icon-edit"></i>
+                <span class="menu-text"> Organization Profile </span>
+            </a>
+        </li>
+        <li  ng-class="{'active': menuItem == 'patients'}" ng-click="onSelectMenu('patients')" >
+
+            <a href='#/patients' id="navbar-patients-lnk">
+                <i class="icon-list-ol"></i>
+                <span class="menu-text"> Patient List </span>
+            </a>
+        </li>
+
+        <li ng-class="{'active': menuItem == 'reports'}" ng-click="onSelectMenu('reports')">
+
+            <a href="#/reports" id="navbar-reports-lnk">
+                <i class="icon-dashboard"></i>
+                <span class="menu-text"> Reports </span>
+            </a>
+        </li>
+
+        <li ng-class="{'active': menuItem == 'reminders'}" ng-click="onSelectMenu('reminders')" >
+
+            <a href="#/reminders" id="navbar-reminders-lnk">
+                <i class="icon-bell-alt icon-animated-bell"></i>
+                <span class="menu-text"> Reminders </span>
+            </a>
+        </li>
+
+        <li ng-class="{'active': menuItem == 'toolsAndResource'}" ng-click="onSelectMenu('toolsAndResource')" >
+
+            <a href="#/toolsandresources" id="navbar-toolsandresources-lnk">
+                <i class="icon-gear"></i>
+                <span class="menu-text"> Tools & Resources </span>
+            </a>
+        </li>
+
+        <li ng-class="{'active': menuItem == 'feedback'}" ng-click="onSelectMenu('feedback')" >
+
+            <a href="#/feedback/{{account.id}}" id="navbar-feedback-lnk">
+                <i class="icon-star-empty"></i>
+                <span class="menu-text"> Feedback </span>
+            </a>
+        </li>
+
+        <li ng-class="{'active': menuItem == 'activity'}" ng-click="onSelectMenu('activity')" >
+
+            <a href="#/activity/{{account.id}}" id="navbar-activity-lnk">
+                <i class="icon-eye-open"></i>
+                <span class="menu-text"> Activity </span>
+            </a>
+        </li>
+
+        <li ng-class="{ 'open active': openCustomMenu }" ng-if="selectedPatient" >
+
+            <a href="#/patient/{{selectedPatientId}}/patientprofile"  class="dropdown-toggle" id="patient-menu" >
+                <i class="icon-user"></i>
+                <span class="menu-text" > {{selectedPatient.firstName}} &nbsp; {{selectedPatient.lastName}} </span>
+                <b class="arrow icon-angle-down"></b>
+            </a>
+
+            <ul class="submenu" >
+                <li ng-class="{'active': subMenuItem == 'summaryCareRecord'}" ng-click="onSelectSubMenu('summaryCareRecord')" >
+                    <a href="#/patient/{{selectedPatientId}}/patientprofile" id="patient-summarycarerecord">
+                        <i class="icon-double-angle-right"></i>
+                        Summary Care Record
+                    </a>
+                </li>
+
+                <li ng-class="{'active': subMenuItem == 'demographics'}" ng-click="onSelectSubMenu('demographics')" >
+                    <a href="#/patient/{{selectedPatientId}}/demographics" id="patient-demo">
+                        <i class="icon-double-angle-right"></i>
+                        Demographics
+                    </a>
+                </li>
+
+                <li ng-class="{'active': subMenuItem == 'allergies'}" ng-click="onSelectSubMenu('allergies')" >
+                    <a href="#/patient/{{selectedPatientId}}/allergies" id="patient-allergies">
+                        <i class="icon-double-angle-right"></i>
+                        Allergies
+                    </a>
+                </li>
+
+                <li ng-class="{'active': subMenuItem == 'conditions'}" ng-click="onSelectSubMenu('conditions')" >
+                    <a href="#/patient/{{selectedPatientId}}/conditions" id="patient-conditions">
+                        <i class="icon-double-angle-right"></i>
+                        Conditions
+                    </a>
+                </li>
+
+                <li ng-class="{'active': subMenuItem == 'medications'}" ng-click="onSelectSubMenu('medications')" >
+                    <a href="#/patient/{{selectedPatientId}}/medications" id="patient-medications">
+                        <i class="icon-double-angle-right"></i>
+                        Medications
+                    </a>
+                </li>
+
+                <li ng-class="{'active': subMenuItem == 'labresults'}" ng-click="onSelectSubMenu('labresults')" >
+                    <a href="#/patient/{{selectedPatientId}}/labresults" id="patient-labresults">
+                        <i class="icon-double-angle-right"></i>
+                        Lab Results
+                    </a>
+                </li>
+
+                <li ng-class="{'active': subMenuItem == 'socialHistory'}" ng-click="onSelectSubMenu('socialHistory')" >
+                    <a href="#/patient/{{selectedPatientId}}/socialhistories" id="patient-socialhistory">
+                        <i class="icon-double-angle-right"></i>
+                        Social History
+                    </a>
+                </li>
+                <li ng-class="{'active': subMenuItem == 'procedure'}" ng-click="onSelectSubMenu('procedure')" >
+                    <a href="#/patient/{{selectedPatientId}}/procedures" id="patient-procedures">
+                        <i class="icon-double-angle-right"></i>
+                        Procedures
+                    </a>
+                </li>
+
+                <li ng-class="{'active': subMenuItem == 'treatmentPlan'}" ng-click="onSelectSubMenu('treatmentPlan')" >
+                    <a href="#/patient/{{selectedPatientId}}/treatmentplan" id="patient-tp">
+                        <i class="icon-double-angle-right"></i>
+                        Treatment Plans
+                    </a>
+                </li>
+                
+                 <li ng-class="{'active':  subMenuItem == 'outcome'}" ng-click="onSelectSubMenu('outcome')" >
+                    <a href="#/patient/{{selectedPatientId}}/outcomes" id="patient-outcomes">
+                        <i class="icon-double-angle-right"></i>
+                        Outcomes
+                    </a>
+                </li>
+            </ul>
+        </li><!-- Finish custom patient menu-->
+    </ul>
+    <!-- /.nav-list -->
+
+    <div class="sidebar-collapse" id="sidebar-collapse">
+        <i class="icon-double-angle-left" data-icon1="icon-double-angle-left" data-icon2="icon-double-angle-right"></i>
+    </div>
+
+    <script type="text/javascript">
+        try {
+            ace.settings.check('sidebar', 'collapsed')
+        } catch (e) {
+        }
+    </script>
+</div>

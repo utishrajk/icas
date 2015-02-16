@@ -1,0 +1,191 @@
+<div ng-include="headnavbar" ng-cloak></div>
+
+<div class="main-container" id="main-container">
+    <script type="text/javascript">
+        try{ace.settings.check('main-container' , 'fixed')}catch(e){}
+    </script>
+
+    <div class="main-container-inner">
+        <a class="menu-toggler" id="menu-toggler" href="" ng-class="{'display': enableDropDownMenu}" ng-click="toggleDropDownMenu()">
+            <span class="menu-text" ></span>
+        </a>
+
+        <div ng-include="sidenavbar" ng-cloak ></div>
+
+        <div class="main-content">
+
+            <div ng-include="breadcrums" ng-cloak></div>
+
+            <div class="page-content">
+                <div ng-include="patientbanner" ng-cloak></div>
+
+                <div class="space-4"></div>
+
+                <div class="row">
+                    <div class="col-xs-12">
+                        <!-- PAGE CONTENT BEGINS -->
+
+                        <div class="table-responsive ">
+                            <div class="table-header">
+                                <span class="table-title">Medications</span>
+                            </div>
+                            <div class="modal-footer no-margin-top"  >
+                                <div class="col-sm-4 " >
+                                    <div class="dataTables_info pull-left no-margi"  >
+                                        <label>
+                                            Display
+                                            <select size="1" ng-model="pageSize" ng-change="onPageSizeChange()" >
+                                                <option value="10">10</option>
+                                                <option value="25">25</option>
+                                                <option value="50">50</option>
+                                                <option value="100">100</option>
+                                            </select>
+                                            Records
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-8">
+                                    <div class="action-buttons field-height">
+                                        <label> Add Mediaction</label>
+                                        <a class="blue" href="#/patient/{{selectedPatientId}}/medications/add" id="medication-add-btn">
+                                            <i class="icon-plus-sign purple bigger-130"></i>
+                                        </a>
+                                        <span > | </span>
+                                        <label>Search</label>
+                                        <select size="1" ng-model="searchBy" ng-change="onSearch()" >
+                                            <option value="">-- All columns --</option>
+                                            <option value="medicationCodeDisplayName">Medication Name</option>
+                                            <option value="productFormCodeDisplayName">Dosage Form</option>
+                                        </select>
+                                        <input type="text" name="search" ng-model="criteria" ng-change="onSearch()" placeholder="Search table" size="15" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-body no-padding" >
+                                <table id="sample-table-1" class="table table-striped table-bordered table-hover no-bottom-margin">
+                                    <thead>
+                                    <tr>
+                                        <th ng-click="sort('medicationCode')">
+                                            Medication Name <i ng-class="{'icon-chevron-up': isSortUp('medicationCode'), 'icon-chevron-down': isSortDown('medicationCode')}"></i>
+                                        </th>
+                                        <th ng-click="sort('doseQuantity')">
+                                            Dosage <i ng-class="{'icon-chevron-up': isSortUp('doseQuantity'), 'icon-chevron-down': isSortDown('doseQuantity')}"></i>
+                                        </th>
+                                        <th ng-click="sort('productFormCode')">
+                                            Product Form<i ng-class="{'icon-chevron-up': isSortUp('productFormCode'), 'icon-chevron-down': isSortDown('productFormCode')}"></i>
+                                        </th>
+                                        <th ng-click="sort('routeCode')">
+                                            Route<i ng-class="{'icon-chevron-up': isSortUp('routeCode'), 'icon-chevron-down': isSortDown('routeCode')}"></i>
+                                        </th>
+                                        <th ng-click="sort('freeTextSig')">
+                                            Frequency  <i ng-class="{'icon-chevron-up': isSortUp('freeTextSig'), 'icon-chevron-down': isSortDown('freeTextSig')}"></i>
+                                        </th>
+                                        <th ng-click="sort('medicationStartDate')">
+                                            Start Date  <i ng-class="{'icon-chevron-up': isSortUp('medicationStartDate'), 'icon-chevron-down': isSortDown('medicationStartDate')}"></i>
+                                        </th>
+                                        <th ng-click="sort('medicationEndDate')">
+                                           End Date<i ng-class="{'icon-chevron-up': isSortUp('medicationEndDate'), 'icon-chevron-down': isSortDown('medicationEndDate')}"></i>
+                                        </th>
+                                        <th >Infobutton</th>
+                                        <th class="action-column-width">Actions</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr ng-repeat="medication in  filteredMedications = ( medications |filter:composedCriteria | orderBy:natural(sortField):reverse )  | pagination:(pageNo-1):pageSize">
+                                        <td>{{ medication.medicationCodeDisplayName }}</td>
+                                        <td>{{ medication.doseQuantity.measuredValue}} &nbsp; {{ medication.doseQuantity.unitOfMeasureCode}}</td>
+                                        <td> {{ medication.productFormCodeDisplayName}}</td>
+                                        <td> {{ medication.routeCodeDisplayName }} </td>
+                                        <td> {{ medication.freeTextSig }}</td>
+                                        <td> {{ medication.medicationStartDate }}</td>
+                                        <td> {{ medication.medicationEndDate }}</td>
+                                        <td class="center">
+                                            <medline-popup code="{{medication.medicationCode}}" type="Medication"></medline-popup>
+                                        </td>
+                                        <td>
+                                            <show-medication medication="medication"  id="medication-show-{{$index}}" ></show-medication>
+                                            <a class="green" href="#/patient/{{selectedPatientId}}/medications/edit/{{medication.id}}" id="medication-edit-{{$index}}">
+                                                <i class="icon-pencil bigger-130"></i>
+                                            </a>
+                                            <delete-medication medicationid="{{ medication.id }}" name="{{(getEntityByCode(medications,medication.medicationCode)).displayName }}" ondelete="deleteMedication(medicationId)" ></delete-medication>
+                                        </td>
+                                    </tr>
+                                    <tr ng-show=" filteredMedications.length == 0">
+                                        <td colspan="9" class="center"> No medication found </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <div class="modal-footer no-margin-top"  >
+                                    <div class="col-sm-4"  >
+                                         <span ng-show=" filteredMedications.length > 0 " >
+                                            <div class="dataTables_info pull-left no-margi"> Showing {{startRecord}} to {{showPageSize}} of {{ filteredMedications.length}} Medications </div>
+                                         </span>
+                                    </div>
+
+                                    <div class="col-sm-8"  >
+                                        <span ng-show=" filteredMedications.length > 0" >
+                                             <span style="display: inline-block;height: 3em; text-align: left;">
+                                                 <span ng-if="paginationIndexError" class="red" style=" position: relative; top: 5%; padding-right: 0.5em;"> {{paginationIndexError}}</span>
+                                             </span>
+
+                                             <span class="pagination pull-right no-margin pagination-highlight">
+                                               <span class="label label-lg arrowed pointercursor" ng-disable="pageNo==firstPage" ng-class="{'label-primary': pageNo!=firstPage}">
+                                                    <span ng-click="setActivePage(firstPage, 0)">
+                                                        <i class="icon-single-angle-left"> </i>
+                                                        First
+                                                    </span>
+                                                </span>
+                                                 <span class="label label-lg pointercursor" ng-disable="pageNo==firstPage" ng-class="{'label-primary': pageNo!=firstPage}" >
+                                                    <span ng-click="setActivePage(pageNo, -1)">
+                                                        <i class=""> </i>
+                                                        Previous
+                                                    </span>
+                                                </span>
+                                               <span> <input type="text" ng-model="pageNo" size="2" style="height:24px;"> of {{lastPage}}</span>
+
+                                                  <span class="label label-lg pointercursor" ng-disable="pageNo==lastPage" ng-class="{'label-primary': pageNo!=lastPage}" >
+                                                    <span ng-click="setActivePage(pageNo, 1)">
+                                                        <i class=""></i>
+                                                        Next
+                                                    </span>
+                                                </span>
+
+                                                 <span class="label label-lg arrowed-right pointercursor" ng-disable="pageNo==lastPage" ng-class="{'label-primary': pageNo!=lastPage}" >
+                                                    <span ng-click="setActivePage(lastPage, 0)">
+                                                        <i class="icon-single-angle-right"></i>
+                                                        Last
+                                                    </span>
+                                                </span>
+                                            </span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- PAGE CONTENT ENDS -->
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.page-content -->
+
+            <!--<div ng-include="loginpage" ></div>-->
+
+        </div><!-- /.main-content -->
+
+    </div><!-- /.main-container-inner -->
+
+    <a href="" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse" ng-click="gotoTop()">
+        <i class="icon-double-angle-up icon-only bigger-110"></i>
+    </a>
+</div><!-- /.main-container -->
+
+<div id="dialog-confirm" class="hide">
+    <p class="bigger-110 bolder center grey">
+        <i class="icon-hand-right blue bigger-120"></i>
+        Are you sure?
+    </p>
+</div><!-- #dialog-delete-patient -->
+
+
+<div id="dialog-medication-details" class="hide" >
+</div><!-- #dialog-patient-labresult -->

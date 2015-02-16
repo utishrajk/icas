@@ -1,0 +1,333 @@
+
+<div ng-include="headnavbar" ng-cloak></div>
+
+<div class="main-container" id="main-container">
+    <script type="text/javascript">
+        try{ace.settings.check('main-container' , 'fixed')}catch(e){}
+    </script>
+
+    <div class="main-container-inner">
+        <a class="menu-toggler" id="menu-toggler" href="" ng-class="{'display': enableDropDownMenu}" ng-click="toggleDropDownMenu()">
+            <span class="menu-text" ></span>
+        </a>
+
+        <div ng-include="sidenavbar" ng-cloak ></div>
+
+        <div class="main-content">
+
+            <div ng-include="breadcrums" ng-cloak></div>
+
+            <div class="page-content">
+                <!--<div class="page-header">-->
+                    <!--<h1>-->
+                        <!--<span ng-bind="currentPage"> </span>-->
+                        <!--<small>-->
+                            <!--<i class="icon-double-angle-right"></i>-->
+                            <!--overview-->
+                        <!--</small>-->
+                    <!--</h1>-->
+                <!--</div>&lt;!&ndash; /.page-header &ndash;&gt;-->
+                <div class="space-4"></div>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <!-- PAGE CONTENT BEGINS -->
+
+
+                        <form novalidate name="organizationProfileForm" class="formValidation form-horizontal" >
+
+                            <ul class="nav nav-tabs padding-16">
+                                <li ng-class="{'active' : activeTab === 'organizationProfile' }" id="organization-profile-tab">
+                                    <a data-toggle="tab" class="tab selected" rel="tab1" ng-click="switchTabTo('organizationProfile')">
+                                        <i class="blue icon-info bigger-125"></i>
+                                        Organization Profile
+                                    </a>
+                                </li>
+
+                                <li ng-class="{'active' : activeTab === 'contact'}" id="organization-contact-tab">
+                                    <a data-toggle="tab" class="tab" rel="tab2" ng-click="switchTabTo('contact')">
+                                        <i class="blue icon-envelope-alt bigger-125"></i>
+                                        Contact
+                                    </a>
+                                </li>
+
+                                <li ng-class="{'active' : activeTab === 'services' }" id="organization-services-tab">
+                                    <a data-toggle="tab" class="tab" rel="tab3" ng-click="switchTabTo('services')">
+                                        <i class="blue icon-key bigger-125"></i>
+                                        Services
+                                    </a>
+                                </li>
+                            </ul>
+
+                            <div class="tab-content profile-edit-tab-content">
+
+                                <div id="tab1" class="tabContent selected" ng-show="activeTab === 'organizationProfile'">
+                                    <h4 class="header blue bolder smaller">General</h4>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label no-padding-right" for="organizationName">Organization Name</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" name="organizationName" id="organizationName" ng-model="organizationProfile.orgName"  required ng-minlength="3" ng-maxlength="30" required placeholder="Organization Name" />
+                                            <span ng-show="showError(organizationProfileForm.organizationName, 'required')" class="patient-form-error">This field is required</span>
+                                            <span ng-show="showError(organizationProfileForm.organizationName, 'minlength')" class="patient-form-error">Organization Name should be atleast 3 characters </span>
+                                            <span ng-show="showError(organizationProfileForm.organizationName, 'maxlength')" class="patient-form-error">Organization Name be less than 30 characters </span>
+                                        </div>
+                                    </div>
+
+                                    <div class="space-4"></div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label no-padding-right" for="nationalProviderId">Orgnization NPI</label>
+                                        <div class="col-sm-9">
+                                            <input type="number" name="nationalProviderId" id="nationalProviderId" ng-model="organizationProfile.npi"  required ng-minlength="1" ng-maxlength="30" required placeholder="Orgnization National Provider ID" />
+                                            <span ng-show="showError(organizationProfileForm.nationalProviderId, 'required')" class="patient-form-error">This field is required</span>
+                                            <span ng-show="isNotANumber" class="patient-form-error">Not a valid number!</span>
+                                            <span ng-show="showError(organizationProfileForm.nationalProviderId, 'minlength')" class="patient-form-error">NPI should be atleast 1 digit </span>
+                                            <span ng-show="showError(organizationProfileForm.nationalProviderId, 'maxlength')" class="patient-form-error">NPI be less than 30 digit </span>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label no-padding-right" for="officialNamePrifix">Authorized official Name prefix</label>
+                                        <div class="col-sm-9">
+                                            <!--<input type="text" name="officialNamePrifix" id="officialNamePrifix" ng-model="organizationProfile.authorizedOfficialNamePrefix"  placeholder="Name prefix" />-->
+                                            <select ng-model="organizationProfile.authorizedOfficialNamePrefix" id="officialNamePrifix" name="officialNamePrifix" >
+                                                <option value="">-- choose Prefix --</option>
+                                                <option ng-repeat="p in prefixes" value="{{p.displayName}}" ng-selected="p.displayName == organizationProfile.authorizedOfficialNamePrefix">{{p.displayName}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label no-padding-right" for="officialFirstName">Authorized official First Name</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" name="officialFirstName" id="officialFirstName" ng-model="organizationProfile.authorizedOfficialFirstName"  placeholder="First Name" />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label no-padding-right" for="officialLastName">Authorized official Last Name</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" name="officialLastName" id="officialLastName" ng-model="organizationProfile.authorizedOfficialLastName"  placeholder="Last Name" />
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div id="tab2" class="tabContent selected" ng-show="activeTab === 'contact'">
+
+                                    <div class="space"></div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label no-padding-right" for="organizationProfileCountry">Country</label>
+                                        <div class="col-sm-9">
+                                            <select ng-model="organizationProfile.mailingAddressCountryCode" required id="organizationProfileCountry" name="organizationProfileCountry" ng-change="validateStateZipcodePhoneFax()">
+                                                <option value="">-- choose Country --</option>
+                                                <option ng-repeat="c in countries" value="{{c.code}}" ng-selected="c.code == organizationProfile.mailingAddressCountryCode">{{c.displayName}}</option>
+                                            </select>
+                                            <span ng-show="showError(organizationProfileForm.organizationProfileCountry, 'required')" class="patient-form-error">This field is required</span>
+                                        </div>
+                                    </div>
+
+                                    <h4 class="header blue bolder smaller">Mailing Address</h4>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label no-padding-right" for="addressLine1">Line1</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" name="addressLine1" id="addressLine1"  class="col-xs-12 col-sm-4" name="addressLine1" required ng-model="organizationProfile.firstLineMailingAddress" required  placeholder="AddressLine1" />
+                                        </div>
+                                    </div>
+
+                                    <div class="space-4"></div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label no-padding-right" for="addressLine2">Line2</label>
+
+                                        <div class="col-sm-9">
+                                            <input class="col-xs-12 col-sm-4" type="text" name="addressLine2" id="addressLine2" ng-model="organizationProfile.secondLineMailingAddress" placeholder="AddressLine2" value="AddressLine2" />
+                                        </div>
+                                    </div>
+
+                                    <div class="space-4"></div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label no-padding-right" for="organizationProfileCity">City</label>
+                                        <div class="col-sm-9">
+                                            <input class="col-xs-12 col-sm-2" type="text" id="organizationProfileCity" name="organizationProfileCity" ng-model="organizationProfile.mailingAddressCityName" required placeholder="City" value="Columbia" />
+                                            <span ng-show="showError(organizationProfileForm.organizationProfileCity, 'required')" class="patient-form-error">This field is required</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="space-4"></div>
+
+                                    <div ng-switch="organizationProfile.mailingAddressCountryCode == USCountryCode">
+                                        <div ng-switch-when="true" >
+                                            <div class="form-group">
+                                                <label class="col-sm-3 control-label no-padding-right" for="organizationProfileState">State</label>
+                                                <div class="col-sm-9">
+                                                    <select ng-model="organizationProfile.mailingAddressStateName"  ng-required="organizationProfile.mailingAddressCountryCode == USCountryCode" id="organizationProfileState" name="organizationProfileState" >
+                                                        <option value="">-- choose state --</option>
+                                                        <option ng-repeat="s in states" value="{{s.displayName}}" ng-selected="s.displayName == organizationProfile.mailingAddressStateName" ng-hide="(s.code == 'NONUS') && (organizationProfile.mailingAddressCountryCode == USCountryCode)">{{s.displayName}}</option>
+                                                    </select>
+                                                    <span ng-show="showError(organizationProfileForm.organizationProfileState, 'required')" class="patient-form-error">This field is required</span>
+                                                </div>
+                                            </div>
+                                         </div>
+                                        <div ng-switch-when="false">
+                                            <div class="form-group">
+                                                <label class="col-sm-3 control-label no-padding-right" for="organizationProfileNonUSState">State</label>
+                                                <div class="col-sm-4">
+                                                    <input type="text" name="organizationProfileNonUSState" id="organizationProfileNonUSState" ng-model="organizationProfile.nonUSState"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="space-4"></div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label no-padding-right" for="organizationZipCode">Postal Code</label>
+
+                                        <div class="col-sm-9">
+                                            <input class="col-xs-12 col-sm-1" type="text" id="organizationZipCode" name="organizationZipCode" required ng-model="organizationProfile.mailingAddressPostalCode" placeholder="Zip Code" value="" />
+                                            <span ng-show="showError(organizationProfileForm.organizationZipCode, 'required')" class="patient-form-error">This field is required</span>
+                                            <span ng-hide="zipcodeIsANumber" class="patient-form-error">Zip code must be a number. </span>
+                                            <span ng-hide="validZipCodeLength" class="patient-form-error"> For US zip code must be 5-digit number. </span>
+                                        </div>
+                                    </div>
+
+                                    <div class="space"></div>
+
+                                    <h4 class="header blue bolder smaller">Contact</h4>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label no-padding-right" for="organizationEmail">Email</label>
+                                        <div class="col-sm-9">
+                                            <span class="input-icon input-icon-right">
+                                                <input type="email" name="organizationEmail"  ng-pattern="emailPattern" id="organizationEmail" ng-model="organizationProfile.email" required/>
+                                                <i class="icon-envelope"></i>
+                                            </span>
+                                            <span ng-show="organizationProfileForm.$error.email" class="patient-form-error">Invalid email</span>
+                                            <span ng-show="organizationProfileForm.organizationEmail.$error['pattern']" class="patient-form-error">Invalid email</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="space-4"></div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label no-padding-right" for="organizationWebsite">Website</label>
+
+                                        <div class="col-sm-9">
+                                            <span class="input-icon input-icon-right">
+                                                <input type="url" id="organizationWebsite" name="organizationWebsite" ng-model="organizationProfile.website" placeholder="http://www.icas.com/" />
+                                                <i class="icon-globe"></i>
+                                            </span>
+                                            <span ng-show="organizationProfileForm.$error.url" class="patient-form-error">Invalid url</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="space-4"></div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label no-padding-right" for="organizationPhoneNumber">Phone</label>
+
+                                        <div class="col-sm-9">
+                                            <span class="input-icon input-icon-right">
+                                                <input class="input-medium input-mask-phone" type="text" id="organizationPhoneNumber" name="organizationPhoneNumber" required ng-model="organizationProfile.mailingAddressTelephoneNumber"   />
+                                                <i class="icon-phone icon-flip-horizontal"></i>
+                                            </span>
+                                            <span ng-show="showError(organizationProfileForm.organizationPhoneNumber, 'required')" class="patient-form-error">This field is required</span>
+                                            <span ng-hide="isPhoneNumber" class="patient-form-error">Invalid phone number. </span>
+                                            <span ng-hide="isValidPhoneNumberLength" class="patient-form-error">US Phone number must be 10-digit number. </span>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label no-padding-right" for="officialTelephoneNumnber">Authorized official Telephone Number</label>
+                                        <div class="col-sm-9">
+                                            <span class="input-icon input-icon-right">
+                                            <input type="text" class="input-medium input-mask-phone" name="officialTelephoneNumnber" id="officialTelephoneNumnber" ng-model="organizationProfile.authorizedOfficialTelephoneNumber" placeholder="Authorized official Telephone Number" />
+                                                 <i class="icon-phone icon-flip-horizontal"></i>
+                                            </span>
+                                            <span ng-hide="isAuthorizedPhoneNumber" class="patient-form-error">Invalid phone number. </span>
+                                            <span ng-hide="isValidAuthorizedPhoneNumberLength" class="patient-form-error">US phone number must be 10-digit number. </span>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label no-padding-right" for="organizationProfileFax">Fax</label>
+
+                                        <div class="col-sm-9">
+                                            <span class="input-icon input-icon-right">
+                                                <input class="input-medium input-mask-phone"  type="text" name="organizationProfileFax" required id="organizationProfileFax" ng-model="organizationProfile.mailingAddressFaxNumber" />
+                                                <i class="icon-phone icon-flip-horizontal"></i>
+                                            </span>
+                                            <span ng-show="showError(organizationProfileForm.organizationProfileFax, 'required')" class="patient-form-error">This field is required</span>
+                                            <span ng-hide="isFaxNumber" class="patient-form-error">Invalid fax number. </span>
+                                            <span ng-hide="isValidFaxNumberLength" class="patient-form-error">US fax number must be 10-digit number. </span>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div id="tab3" class="tabContent selected formValidation" ng-show="activeTab === 'services'">
+                                    <div class="space-10"></div>
+                                    <h4 class="header blue bolder smaller">Service List </h4>
+                                    <div class="widget-box">
+                                        <div class="widget-header header-color-blue ">
+                                            <h4></h4>
+                                        </div>
+                                        <div class="widget-body">
+                                            <div class="widget-main">
+                                                <div>
+                                                    <label for="form-field-select-2">Select service (To select multiple services press the Ctrl key and click)</label>
+                                                    <select class="form-control" id="form-field-select-2" multiple="multiple" ng-model="organizationProfile.services" size="6" ng-change="populateSelectedService()">
+                                                        <option ng-repeat="s in services" value="{{s.code}}" ng-selected="isSelectedService(s.code)">{{s.displayName}}</option>
+                                                    </select>
+                                                </div>
+                                                <br/>
+                                                <strong>Selected Services:</strong>
+
+                                                <ul>
+                                                    <li ng-repeat="serviceCode in organizationProfile.services">
+                                                        {{ (getEntityByCode( services, serviceCode)).displayName }}
+                                                    </li>
+                                                </ul>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                <!--</div>&lt;!&ndash; /span &ndash;&gt;-->
+                              </div>
+                </div>
+                <!--</div>-->
+
+                <div class="clearfix form-actions">
+                    <div class="col-md-offset-3 col-md-9">
+                        <button class="btn btn-info" type="button" ng-click="save(organizationProfile)" ng-disabled="!canSave()" id="organizationProfile-save-btn">
+                            <i class="icon-ok bigger-110"></i>
+                            Save
+                        </button>
+                        <button class="btn" type="reset">
+                            <i class="icon-undo bigger-110"></i>
+                            Reset
+                        </button>
+                    </div>
+                </div>
+
+                </form>
+
+                <!-- PAGE CONTENT ENDS -->
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.page-content -->
+
+            <!--<div ng-include="loginpage" ></div>-->
+
+        </div><!-- /.main-content -->
+
+    </div><!-- /.main-container-inner -->
+
+    <a href="" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse" ng-click="gotoTop()">
+        <i class="icon-double-angle-up icon-only bigger-110"></i>
+    </a>
+</div><!-- /.main-container -->

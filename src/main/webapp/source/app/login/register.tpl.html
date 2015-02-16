@@ -1,0 +1,152 @@
+
+<div class="longin-layout" >
+    <div class="row">
+        <div class="col-sm-10 col-sm-offset-1">
+            <br/><br/><br/><br/><br/>
+            <div class="login-container" style="width:500px;">
+                <div class="center">
+                    <h1>
+                        <i class="icon-leaf green"></i>
+                        <span class="red"></span>
+                        <span class="blue">{{projectName}}</span>
+                    </h1>
+                    <h4 class="blue">&copy; {{companyName}}</h4>
+                </div>
+                <div class="position-relative" >
+                    <div id="signup-box" class="signup-box widget-box no-border" >
+                        <div class="widget-body" style="border: 1px solid #438eb9;">
+                            <div class="widget-main">
+                                <h4 class="header green lighter bigger">
+                                    <i class="icon-key green"></i>
+                                    Registration
+                                </h4>
+                                <div class="space-6"></div>
+                                <form data-ng-submit="register()" novalidate autocomplete="off" name="registerForm" class="formValidation form-horizontal field-height">
+                                    <fieldset>
+
+                                        <label class="block clearfix"> First Name
+                                            <span class="block input-icon input-icon-right">
+                                                <input type="text"  id="firstName" name="firstName" data-ng-model="registerUser.firstName" ng-minlength="2" ng-maxlength="50" class="form-control" placeholder="First Name" required/>
+                                                <span ng-show="showError(registerForm.firstName, 'required')" class="patient-form-error">This field is required</span>
+                                                <span ng-show="showError(registerForm.firstName, 'minlength')" class="patient-form-error">First name should be at least 2 characters </span>
+                                                <span ng-show="showError(registerForm.firstName, 'maxlength')" class="patient-form-error">First name should be less than 50 characters </span>
+                                                <i class="icon-user"></i>
+                                            </span>
+                                        </label>
+
+                                        <label class="block clearfix"> Last Name
+                                            <span class="block input-icon input-icon-right">
+                                                <input type="text"  id="lastName" name="lastName" data-ng-model="registerUser.lastName" ng-minlength="2" ng-maxlength="50" class="form-control" placeholder="Last Name" required/>
+                                                <span ng-show="showError(registerForm.lastName, 'required')" class="patient-form-error">This field is required</span>
+                                                <span ng-show="showError(registerForm.lastName, 'minlength')" class="patient-form-error">Last name should be at least 2 characters </span>
+                                                <span ng-show="showError(registerForm.lastName, 'maxlength')" class="patient-form-error">Last name should be less than 50 characters </span>
+                                                <i class="icon-user"></i>
+                                            </span>
+                                        </label>
+
+                                        <label class="block clearfix"> Date of birth
+                                            <span class="block input-icon input-icon-right">
+
+                                                 <datedropdown ng-model="registerUser.dateOfBirth" isrequired="true" futuredatevalidation="true" agevalidation="true" isvaliddate="isvaliddate"></datedropdown>
+
+                                                <!--<input type="text"  ng-pattern="datePattern" datepicker ng-model="registerUser.dateOfBirth" id="dateOfBirth" class="form-control" name="dateOfBirth" placeholder="MM/DD/YYYY" required/>-->
+                                                <!--<span ng-show="showError(registerForm.dateOfBirth, 'required')" class="patient-form-error">This field is required.</span>-->
+                                                <!--<span ng-show="registerForm.dateOfBirth.$error['pattern']" class="patient-form-error">Invalid date.</span>-->
+                                                <!--<span ng-show="isFutureDate(registerUser.dateOfBirth)" class="patient-form-error">Date should not be in the future.</span>-->
+                                                <!--<span ng-show="getAge(registerUser.dateOfBirth) < 18" class="patient-form-error">Age should be at least 18 years</span>-->
+                                            </span>
+                                        </label>
+
+                                        <label class="block clearfix"> Email
+                                            <span class="block input-icon input-icon-right">
+                                                <input type="email"  id="email" name="email" ng-pattern="emailPattern" data-ng-model="registerUser.email" class="form-control" placeholder="Email" required/>
+                                                <span ng-show="showError(registerForm.email, 'required')" class="patient-form-error">This field is required</span>
+                                                <span ng-show="registerForm.email.$error['pattern']" class="patient-form-error">Invalid email</span>
+                                                <i class="icon-envelope-alt"></i>
+                                            </span>
+                                        </label>
+
+                                        <label class="block clearfix"> Password
+                                            <span class="block input-icon input-icon-right">
+                                                <input type="password" id="credential" name="credential" ng-pattern="passwordPattern" class="form-control" ng-minlength="8" data-ng-model="registerUser.credential" placeholder="Password" required ng-change="comparePasswords()"/>
+                                                <span ng-show="showError(registerForm.credential, 'required')" class="patient-form-error">This field is required</span>
+                                                <span ng-show="showError(registerForm.credential, 'minlength')" class="patient-form-error">Password should be at least 8 characters </span>
+                                                <span ng-show="registerForm.credential.$error['pattern']" class="patient-form-error">password should be 8 to 32 character password requiring at least 3 out 4 (uppercase and lowercase letters, numbers and special characters) and no more than 2 equal characters in a row</span>
+                                                <i class="icon-lock"></i>
+                                            </span>
+                                        </label>
+
+                                        <label class="block clearfix"> Confirm Password
+                                            <span class="block input-icon input-icon-right">
+                                                <input type="password" id="confirmPassword" name="confirmPassword" ng-pattern="passwordPattern" class="form-control" ng-minlength="8" data-ng-model="registerUser.confirmPassword" placeholder="Confirm Password" required ng-change="comparePasswords()"/>
+                                                <span ng-show="showError(registerForm.confirmPassword, 'required')" class="patient-form-error">This field is required.</span>
+                                                <span ng-show="showError(registerForm.confirmPassword, 'minlength')" class="patient-form-error">Confirm Password should be at least 8 characters.</span>
+                                                 <span ng-show="registerForm.confirmPassword.$error['pattern']" class="patient-form-error">password should be 8 to 32 character password requiring at least 3 out 4 (uppercase and lowercase letters, numbers and special characters) and no more than 2 equal characters in a row</span>
+                                                <span ng-show="passwordsMatch" class="patient-form-error">Passwords do not match</span>
+                                                <i class="icon-lock"></i>
+                                            </span>
+                                        </label>
+
+                                        <label class="block clearfix"> Security Question 1
+                                            <span class="block input-icon input-icon-right">
+                                                <select ng-model="registerUser.securityQuestion1" name="securityQuestion1" id="securityQuestion1" required ng-change="compareSecurityQuestions()">
+                                                    <option value="">-- Choose Security Question 1 --</option>
+                                                    <option ng-repeat="s in securityQuestions" value="{{s.code}}">{{s.displayName}}</option>
+                                                </select>
+                                                <span ng-show="showError(registerForm.securityQuestion1, 'required')" class="patient-form-error">This field is required</span>
+                                            </span>
+                                        </label>
+
+                                        <label class="block clearfix"> Security Answer 1
+                                            <span class="block input-icon input-icon-right">
+                                                <input type="text"  id="securityAnswer1" name="securityAnswer1" data-ng-model="registerUser.securityAnswer1" class="form-control" placeholder="Security Answer 1" required/>
+                                                <span ng-show="showError(registerForm.securityAnswer1, 'required')" class="patient-form-error">This field is required</span>
+                                                <i class="icon-user"></i>
+                                            </span>
+                                        </label>
+
+                                        <label class="block clearfix"> Security Question 2
+                                            <span class="block input-icon input-icon-right">
+                                                <select ng-model="registerUser.securityQuestion2" name="securityQuestion2" id="securityQuestion2" required ng-change="compareSecurityQuestions()">
+                                                    <option value="">-- Choose Security Question 2 --</option>
+                                                    <option ng-repeat="s in securityQuestions" value="{{s.code}}">{{s.displayName}}</option>
+                                                </select>
+                                                <span ng-show="showError(registerForm.securityQuestion2, 'required')" class="patient-form-error">This field is required</span>
+                                                <span ng-show="questionsMatch" class="patient-form-error">Security questions must be different</span>
+                                            </span>
+                                        </label>
+
+                                        <label class="block clearfix"> Security Answer 2
+                                            <span class="block input-icon input-icon-right">
+                                                <input type="text"  id="securityAnswer2" name="securityAnswer2" data-ng-model="registerUser.securityAnswer2" class="form-control" placeholder="Security Answer 2" required/>
+                                                <span ng-show="showError(registerForm.securityAnswer2, 'required')" class="patient-form-error">This field is required</span>
+                                                <i class="icon-user"></i>
+                                            </span>
+                                        </label>
+
+                                        <div ng-show="registererror" class="red">{{registerErrorMsg}}</div>
+
+                                        <div class="space-10"></div>
+                                        <div class="clearfix">
+                                            <a href="#/login" data-ng-click="resetMessages()"  class=" width-45 pull-left btn btn-sm">
+                                                <i class="icon-arrow-left"></i>
+                                                back to login
+                                            </a>
+
+                                            <button type="submit" ng-disabled="!registerForm.$valid || passwordsMatch || questionsMatch || (getAge(registerUser.dateOfBirth) < 18) || !isvaliddate" class="width-45 pull-right btn btn-sm btn-success">
+                                                Register <i class="icon-arrow-right icon-on-right"></i>
+                                            </button>
+                                        </div>
+                                    </fieldset>
+                                </form>
+                            </div>
+                            <div data-ng-show="error" class="text-center text-danger">
+                                <strong>{{error}}</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,132 @@
+<div ng-include="headnavbar" ng-cloak></div>
+
+<div class="main-container" id="main-container">
+    <script type="text/javascript">
+        try{ace.settings.check('main-container' , 'fixed')}catch(e){}
+    </script>
+
+    <div class="main-container-inner">
+        <a class="menu-toggler" id="menu-toggler" href="" ng-class="{'display': enableDropDownMenu}" ng-click="toggleDropDownMenu()">
+            <span class="menu-text" ></span>
+        </a>
+
+        <div ng-include="sidenavbar" ng-cloak ></div>
+
+        <div class="main-content">
+
+            <div ng-include="breadcrums" ng-cloak></div>
+
+            <div class="page-content">
+                <div ng-include="patientbanner" ng-cloak></div>
+
+                <div class="space-4"></div>
+
+                <div class="row">
+                    <div class="col-xs-12">
+                        <!-- PAGE CONTENT BEGINS -->
+
+                          <div id="add-mediaction-form">
+                            <form novalidate class="formValidation form-horizontal field-height" name="medicationForm" >
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label no-padding-right" for="medicationCode"> Name </label>
+                                    <div class="col-sm-9">
+                                        <select ng-model="medication.medicationCode" name="medicationCode" id="medicationCode" >
+                                            <option value="">-- select--</option>
+                                            <option ng-repeat="m in medicationCodes" value="{{m.code}}" ng-selected="m.code == medication.medicationCode">{{m.displayName}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label no-padding-right" for="measuredValue"> Dosage </label>
+                                    <div class="col-sm-9">
+                                        <input type="text" ng-model="medication.doseQuantity.measuredValue" id="measuredValue" required name="measuredValue" placeholder="Dosage"/>
+                                        <select ng-model="medication.doseQuantity.unitOfMeasureCode" name="unitOfMeasureCode" id="unitOfMeasureCode" >
+                                            <option value="">-- select--</option>
+                                            <option ng-repeat="u in unitofmeasurecodes" value="{{u.code}}" ng-selected="u.code == medication.doseQuantity.unitOfMeasureCode">{{u.code}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label no-padding-right" for="productFormCode"> Product Form </label>
+                                    <div class="col-sm-9">
+                                        <select ng-model="medication.productFormCode" name="productFormCode" id="productFormCode" >
+                                            <option value="">-- select --</option>
+                                            <option ng-repeat="p in productformcodes" value="{{p.code}}" ng-selected="p.code == medication.productFormCode">{{p.displayName}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label no-padding-right" > Route</label>
+                                    <div class="col-sm-9" >
+                                        <select ng-model="medication.routeCode" name="routeCode" id="routeCode" >
+                                            <option value="">-- select --</option>
+                                            <option ng-repeat="r in routecodes" value="{{r.code}}" ng-selected="r.code == medication.routeCode">{{r.displayName}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label no-padding-right" for="freeTextSig">Frequency</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" ng-model="medication.freeTextSig" id="freeTextSig" required name="freeTextSig" placeholder="Frequency"/>
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label no-padding-right" for="medicationStartDate"> Start date </label>
+                                    <div class="col-sm-9">
+                                        <input type="text"
+                                               ng-pattern="datePattern" datepicker
+                                               ng-model="medication.medicationStartDate" id="medicationStartDate"  name="medicationStartDate"
+                                               placeholder="MM/DD/YYYY"/>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label no-padding-right" for="medicationEndDate"> End date </label>
+                                    <div class="col-sm-9">
+                                        <input type="text"
+                                               ng-pattern="datePattern" datepicker
+                                               ng-model="medication.medicationEndDate" id="medicationEndDate"  name="medicationEndDate"
+                                               placeholder="MM/DD/YYYY"/>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label no-padding-right" for="medicationNote">Note</label>
+                                    <div class="col-sm-9">
+                                        <textarea class="form-control" style="width: 230px; height: 60px;" ng-model="medication.medicationNote"  id="medicationNote" name="medicationNote" placeholder="Note ..."></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="clearfix form-actions">
+                                    <div class="col-md-offset-3 col-md-9">
+
+                                        <a class="btn" href="#/patient/{{selectedPatientId}}/medications" id="medication-demo-back-btn">
+                                            <i class="icon-arrow-left bigger-110 "></i>
+                                            Back
+                                        </a>
+
+                                        <a class="btn btn-info" type="button" ng-click="save(medication)"  id="medication-save-btn">
+                                            <i class="icon-ok bigger-110"></i>
+                                            Submit
+                                        </a>
+                                    </div>
+                                </div>
+                            </form>
+                            <!--Form: <pre ng-bind="toJSON(medicationForm)"></pre>-->
+                        </div>
+                        <!-- PAGE CONTENT ENDS -->
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.page-content -->
+
+        </div><!-- /.main-content -->
+
+    </div><!-- /.main-container-inner -->
+
+    <a href="" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse" ng-click="gotoTop()">
+        <i class="icon-double-angle-up icon-only bigger-110"></i>
+    </a>
+</div><!-- /.main-container -->

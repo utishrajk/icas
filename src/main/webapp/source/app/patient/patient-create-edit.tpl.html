@@ -1,0 +1,184 @@
+<div ng-include="headnavbar" ng-cloak></div>
+
+<div class="main-container" id="main-container">
+    <script type="text/javascript">
+        try{ace.settings.check('main-container' , 'fixed')}catch(e){}
+    </script>
+
+    <div class="main-container-inner">
+        <a class="menu-toggler" id="menu-toggler" href="" ng-class="{'display': enableDropDownMenu}" ng-click="toggleDropDownMenu()">
+            <span class="menu-text" ></span>
+        </a>
+
+        <div ng-include="sidenavbar" ng-cloak ></div>
+
+        <div class="main-content">
+
+            <div ng-include="breadcrums" ng-cloak></div>
+
+            <div class="page-content">
+                <!--<div class="page-header">-->
+                    <!--<h1>-->
+                        <!--<span ng-bind="currentPage"> </span>-->
+                        <!--<small>-->
+                            <!--<i class="icon-double-angle-right"></i>-->
+                            <!--overview-->
+                        <!--</small>-->
+                    <!--</h1>-->
+                <!--</div>&lt;!&ndash; /.page-header &ndash;&gt;-->
+                <div class="space-4"></div>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <!-- PAGE CONTENT BEGINS -->
+
+                          <div id="add-patient-form">
+                            <form novalidate class="formValidation form-horizontal field-height" name="patientForm" >
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label no-padding-right" for="patientMRN"> Patient ID </label>
+                                    <div class="col-sm-9">
+                                        <input type="text" ng-model="patient.medicalRecordNumber" id="patientMRN" name="patientMRN"  placeholder="Patient ID"/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label no-padding-right" for="patientFirstName"> First Name </label>
+                                    <div class="col-sm-9">
+                                        <input type="text" ng-model="patient.firstName" ng-minlength="2" id="patientFirstName" ng-maxlength="30"  required name="patientFirstName" placeholder="Patient first name"/>
+                                        <span ng-show="showError(patientForm.patientFirstName, 'required')" class="patient-form-error">This field is required</span>
+                                        <span ng-show="showError(patientForm.patientFirstName, 'minlength')" class="patient-form-error">First name should be atleast 2 characters </span>
+                                        <span ng-show="showError(patientForm.patientFirstName, 'maxlength')" class="patient-form-error">First name should be less than 30 characters </span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label no-padding-right" for="patientLastName"> Last Name </label>
+                                    <div class="col-sm-9">
+                                        <input type="text" ng-model="patient.lastName"  ng-minlength="2" ng-maxlength="30" id="patientLastName" required   name="patientLastName" placeholder="Patient last name"/>
+                                        <span ng-show="showError(patientForm.patientLastName, 'required')" class="patient-form-error">This field is required</span>
+                                        <span ng-show="showError(patientForm.patientLastName, 'minlength')" class="patient-form-error">Last name should be atleast 2 characters </span>
+                                        <span ng-show="showError(patientForm.patientLastName, 'maxlength')" class="patient-form-error">Last name should be less than 30 characters </span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label no-padding-right" > Gender</label>
+                                    <div class="col-sm-9" >
+                                        <label class="inline">
+                                            <input type="radio"  ng-model="patient.administrativeGenderCode" class="ace" name="patientGender" value="M"/>
+                                            <span class="lbl"> Male </span>
+                                        </label>
+                                        <br />
+                                        <label class="inline">
+                                            <input type="radio"  ng-model="patient.administrativeGenderCode" class="ace" name="patientGender" value="F"/>
+                                            <span class="lbl"> Female </span>
+                                        </label>
+                                        <br />
+                                        <label class="inline">
+                                            <input type="radio"  ng-model="patient.administrativeGenderCode" class="ace" name="patientGender" value="UN"/>
+                                            <span class="lbl"> Undifferentiated </span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label no-padding-right" for="patientRace">Race</label>
+                                    <div class="col-sm-9">
+                                        <select ng-model="patient.raceCode" name="patientRace" id="patientRace" >
+                                            <option value="">-- choose race --</option>
+                                            <option ng-repeat="r in races" value="{{r.code}}" ng-selected="r.code == patient.raceCode">{{r.displayName}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label no-padding-right" style="padding-right: 12px;" for="patientCountry"> Country </label>
+                                    <div class="col-sm-9" >
+                                        <select ng-model="patient.addressCountryCode" id="patientCountry" name="patientCountry" ng-change="onCountrySelected()">
+                                            <option value="">-- choose country --</option>
+                                            <option ng-repeat="c in countries" value="{{c.code}}" ng-selected="c.code == patient.addressCountryCode">{{c.displayName}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label no-padding-right" for="patientTelephone">Telephone</label>
+                                    <div class="col-sm-9">
+                                        <span class="input-icon input-icon-right">
+                                            <input class="input-medium input-mask-phone" type="text" id="patientTelephone" name="patientTelephone" ng-model="patient.telephone" />
+                                        </span>
+                                        <!--<span ng-show="showError(patient.telephone, 'required')" class="patient-form-error">This field is required.</span>-->
+                                        <!--<span ng-hide="isPhoneNumber" class="patient-form-error">Invalid phone number. </span>-->
+                                        <!--<span ng-hide="isValidPhoneNumberLength" class="patient-form-error">US Phone number must be 10-digit number. </span>-->
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label no-padding-right" > Date of Birth </label>
+                                    <div class="col-sm-9">
+                                        <datedropdown ng-model="patient.birthDate" isrequired="false" futuredatevalidation="true" agevalidation="false" isvaliddate="isvaliddate"></datedropdown>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label no-padding-right" for="patientZipcode"> Zip Code </label>
+                                    <div class="col-sm-9">
+                                        <input type="text" ng-model="patient.addressPostalCode"  id="patientZipcode"  ng-required="patient.addressCountryCode == 'US'"  name="patientZipcode" placeholder="Patient zip code"/>
+                                        <span ng-show="showError(patientForm.patientZipcode, 'required')" class="patient-form-error">This field is required</span>
+                                        <span ng-hide="zipcodeIsANumber" class="patient-form-error">Zip code must be a number. </span>
+                                        <span ng-hide="validZipCodeLength" class="patient-form-error"> For US zip code must be 5-digit number. </span>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label no-padding-right" style="padding-right: 12px;" for="patientState"> State </label>
+                                    <div ng-switch="patient.addressCountryCode == USCountryCode ">
+                                        <div ng-switch-when="true">
+                                            <div class="col-sm-9" >
+                                                <select ng-model="patient.addressStateCode" id="patientState" ng-required="patient.addressCountryCode == USCountryCode " name="patientState" >
+                                                    <option value="">-- choose state --</option>
+                                                    <option ng-repeat="s in states" value="{{s.code}}" ng-selected="s.code == patient.addressStateCode" ng-hide="(s.code == 'NONUS') && (patient.addressCountryCode == USCountryCode)">{{s.displayName}}</option>
+                                                </select>
+                                                <span ng-show="showError(patientForm.patientState, 'required')" class="patient-form-error">This field is required</span>
+                                            </div>
+                                        </div>
+                                        <div ng-switch-when="false">
+                                            <div class="col-sm-9" >
+                                                <input type="text" ng-model="patient.nonUSState"  id="patientNonUSState"    name="patientNonUSState" placeholder="State"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="clearfix form-actions">
+                                    <div class="col-md-offset-3 col-md-9">
+                                        <a class="btn" href="#/patients" ng-hide="isDemographics" id="patient-back-btn">
+                                            <i class="icon-arrow-left bigger-110 "></i>
+                                            Back
+                                        </a>
+                                        <a class="btn" href="#/patient/{{selectedPatientId}}/demographics"  ng-hide="!isDemographics" id="patient-demo-back-btn">
+                                            <i class="icon-arrow-left bigger-110 "></i>
+                                            Back
+                                        </a>
+
+                                        <a class="btn btn-info" type="button" ng-click="save(patient)" ng-disabled="!canSave() || !isvaliddate " id="patient-save-btn">
+                                            <i class="icon-ok bigger-110"></i>
+                                            Submit
+                                        </a>
+                                    </div>
+                                </div>
+                            </form>
+                            <!--Form: <pre ng-bind="toJSON(patientForm)"></pre>-->
+                        </div>
+                        <!-- PAGE CONTENT ENDS -->
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.page-content -->
+
+            <!--<div ng-include="loginpage" ></div>-->
+
+        </div><!-- /.main-content -->
+
+    </div><!-- /.main-container-inner -->
+
+    <a href="" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse" ng-click="gotoTop()">
+        <i class="icon-double-angle-up icon-only bigger-110"></i>
+    </a>
+</div><!-- /.main-container -->

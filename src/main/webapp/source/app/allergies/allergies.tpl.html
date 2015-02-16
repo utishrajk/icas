@@ -1,0 +1,160 @@
+<div ng-include="headnavbar" ng-cloak></div>
+
+<div class="main-container" id="main-container">
+    <script type="text/javascript">
+        try {
+            ace.settings.check('main-container', 'fixed')
+        } catch (e) {
+        }
+    </script>
+
+    <div class="main-container-inner">
+        <a class="menu-toggler" id="menu-toggler" href="" ng-class="{'display': enableDropDownMenu}"
+           ng-click="toggleDropDownMenu()">
+            <span class="menu-text"></span>
+        </a>
+
+        <div ng-include="sidenavbar" ng-cloak></div>
+
+        <div class="main-content">
+
+            <div ng-include="breadcrums" ng-cloak></div>
+
+            <div class="page-content">
+
+                <div ng-include="patientbanner" ng-cloak></div>
+
+                <div class="space-4"></div>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="table-responsive">
+                            <div class="table-header">
+                                <span class="table-title">Allergies</span>
+                            </div>
+                            <div class="modal-footer no-margin-top">
+                                <div class="col-sm-4 ">
+                                    <div class="dataTables_info pull-left no-margi">
+                                        <label>
+                                            Display
+                                            <select size="1" ng-model="pageSize" ng-change="onPageSizeChange()">
+                                                <option value="10">10</option>
+                                                <option value="25">25</option>
+                                                <option value="50">50</option>
+                                                <option value="100">100</option>
+                                            </select>
+                                            Records
+                                        </label>
+
+                                    </div>
+                                </div>
+                                <div class="col-sm-8">
+                                    <div class="action-buttons field-height">
+                                        <label> Add Allergy</label>
+                                        <a class="blue" href="#/patient/{{selectedPatientId}}/allergies/add"
+                                           id="allergy-add-btn">
+                                            <i class="icon-plus-sign purple bigger-130"></i>
+                                        </a>
+                                        <span> | </span>
+                                        <label>Search</label>
+                                        <select size="1" ng-model="searchBy" ng-change="onSearch()">
+                                            <option value="">-- All columns --</option>
+                                            <option value="adverseEvent">Allergy Type</option>
+                                            <option value="allergen">Allergen</option>
+                                        </select> <input type="text" name="search" ng-model="criteria" ng-change="onSearch()" placeholder="Search table" size="15"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-body no-padding">
+                                <table id="allergies-table"
+                                       class="table table-striped table-bordered table-hover no-bottom-margin">
+                                    <thead>
+                                    <tr>
+                                        <th ng-click="sort('adverseEventTypeName')">Allergy Type<i ng-class="{'icon-chevron-up': isSortUp('adverseEventTypeName'), 'icon-chevron-down': isSortDown('adverseEventTypeName')}"></i></th>
+                                        <th ng-click="sort('allergenName')">Allergen<i ng-class="{'icon-chevron-up': isSortUp('allergenName'), 'icon-chevron-down': isSortDown('allergenName')}"></i></th>
+                                        <th ng-click="sort('allergyReactionName')">Reaction<i ng-class="{'icon-chevron-up': isSortUp('allergyReactionName'), 'icon-chevron-down': isSortDown('allergyReactionName')}"></i></th>
+                                        <th ng-click="sort('allergySeverityName')">Severity<i ng-class="{'icon-chevron-up': isSortUp('allergySeverityName'), 'icon-chevron-down': isSortDown('allergySeverityName')}"></i></th>
+                                        <th ng-click="sort('allergyStartDate')">Start Date<i ng-class="{'icon-chevron-up': isSortUp('allergyStartDate'), 'icon-chevron-down': isSortDown('allergyStartDate')}"></i></th>
+                                        <th ng-click="sort('allergyEndDate')">End Date<i ng-class="{'icon-chevron-up': isSortUp('allergyEndDate'), 'icon-chevron-down': isSortDown('allergyEndDate')}"></i></th>
+                                        <th >Infobutton</th>
+                                        <th class="action-column-width">Actions</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr ng-show="filteredAllergies.length == 0 ">
+                                        <td colspan="8" class="center"> No Allergy found</td>
+                                    </tr>
+                                    <tr ng-repeat="allergy in filteredAllergies = ( allergies | filter:composedCriteria | orderBy:natural(sortField):reverse  )  | pagination:pageNo:pageSize" ng-hide="noRecords">
+                                        <td>{{ allergy.adverseEventTypeName }}</td>
+                                        <td>{{ allergy.allergenName }}</td>
+                                        <td>{{ allergy.allergyReactionName }}</td>
+                                        <td>{{ allergy.allergySeverityName }}</td>
+                                        <td>{{ allergy.allergyStartDate }}</td>
+                                        <td>{{ allergy.allergyEndDate }}</td>
+                                        <td class="center">
+                                            <medline-popup code="{{allergy.allergenCode}}" type="Allergy"></medline-popup>
+                                        </td>
+                                        <td>
+                                            <show-allergy allergy="allergy"></show-allergy>
+                                            <a class="green" href="#/patient/{{selectedPatientId}}/allergies/edit/{{allergy.id}}" id="allergy-edit-{{$index}}">
+                                                <i class="icon-pencil bigger-130"></i>
+                                            </a>
+                                            <delete-allergy allergyid="{{ allergy.id }}" name="{{ allergy.allergenName }}" ondelete="deleteAllergy(allergyId)"></delete-allergy>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <div class="modal-footer no-margin-top">
+                                    <div class="col-sm-6">
+                                         <span ng-show="filteredAllergies.length > 0 ">
+                                            <div class="dataTables_info pull-left no-margi"> Showing {{startRecord}} to
+                                                {{showPageSize}} of {{filteredAllergies.length}} Allergies
+                                            </div>
+                                         </span>
+                                    </div>
+
+                                    <div class="col-sm-6">
+                                        <span ng-show="filteredAllergies.length > 0 ">
+                                            <ul class="pagination pull-right no-margin pagination-highlight">
+                                                <li class="prev">
+                                                    <a ng-click="setActivePage(firstPage)">
+                                                        <i class="icon-double-angle-left"></i>
+                                                    </a>
+                                                </li>
+
+                                                <li ng-repeat="page in pages" ng-class="{'active': page==pageNo}">
+                                                    <a ng-click="setActivePage(page)">{{page+1}}</a>
+                                                </li>
+
+                                                <li class="next">
+                                                    <a ng-click="setActivePage(lastPage-1)">
+                                                        <i class="icon-double-angle-right"></i>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <a href="" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse" ng-click="gotoTop()">
+        <i class="icon-double-angle-up icon-only bigger-110"></i>
+    </a>
+</div>
+
+<div id="dialog-confirm" class="hide">
+    <div class="alert alert-info bigger-110">
+        <span id="dialog-confirm-msg"></span>
+    </div>
+    <div class="space-6"></div>
+    <p class="bigger-110 bolder center grey">
+        <i class="icon-hand-right blue bigger-120"></i>
+        Are you sure?
+    </p>
+</div>
+
+<div id="dialog-allergy-details" class="hide"></div>

@@ -1,0 +1,257 @@
+<div ng-include="headnavbar" ng-cloak></div>
+
+<div class="main-container" id="main-container">
+    <script type="text/javascript">
+        try{ace.settings.check('main-container' , 'fixed')}catch(e){}
+    </script>
+
+    <div class="main-container-inner">
+        <a class="menu-toggler" id="menu-toggler" href="" ng-class="{'display': enableDropDownMenu}" ng-click="toggleDropDownMenu()">
+            <span class="menu-text" ></span>
+        </a>
+
+        <div ng-include="sidenavbar" ng-cloak ></div>
+
+        <div class="main-content">
+
+            <div ng-include="breadcrums" ng-cloak></div>
+
+            <div class="page-content">
+                <!--<div class="page-header">-->
+                    <!--<h1>-->
+                        <!--<span ng-bind="currentPage"> </span>-->
+                        <!--<small>-->
+                            <!--<i class="icon-double-angle-right"></i>-->
+                            <!--overview-->
+                        <!--</small>-->
+                    <!--</h1>-->
+                <!--</div>&lt;!&ndash; /.page-header &ndash;&gt;-->
+                <div class="space-4"></div>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <!-- PAGE CONTENT BEGINS -->
+                        <div class="widget-box">
+                            <div class="widget-header header-color-blue">
+                                <h4>
+                                    <i class="icon-bar-chart white"></i>
+                                    30-day hospital readmissions for patients with a diagnosis of mental health or substance abuse disorder
+                                </h4>
+                            </div>
+                            <div class="widget-body">
+                                <div class="widget-main">
+                                    <div class='row-graph span12' id='readmission-chart' style='color: black;'>
+                                        <svg></svg>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <br/>
+
+                        <div class="widget-box">
+                            <div class="widget-header header-color-blue">
+                                <h4>
+                                    <i class="icon-bar-chart white"></i>
+                                    Percentage of patients with a diagnosis of current alcohol dependence who were counseled regarding psychosocial AND pharmacologic treatment options
+                                </h4>
+                            </div>
+                            <div class="widget-body">
+                                <div class="widget-main">
+                                    <div class='row-graph span12' id='counseled-chart' style='color: black;'>
+                                        <svg></svg>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <br/>
+
+                        <div class="widget-box">
+                            <div class="widget-header header-color-blue">
+                                <h4>
+                                    <i class="icon-bar-chart white"></i>
+                                    Emergency room utilization for patients with a diagnosis of mental health or substance abuse disorder
+                                </h4>
+                            </div>
+                            <div class="widget-body">
+                                <div class="widget-main">
+                                    <div class='row-graph span12' id='emergency-chart' style='color: black;'>
+                                        <svg></svg>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <br/>
+
+                        <div class="widget-box">
+                            <div class="widget-header header-color-blue">
+                                <h4>
+                                    <i class="icon-bar-chart white"></i>
+                                    Patients admitted to hospital who are screened within the first three days of admission for risk of violence to self or others
+                                </h4>
+                            </div>
+                            <div class="widget-body">
+                                <div class="widget-main">
+                                    <div class='row-graph span12' id='admitted-chart' style='color: black;'>
+                                        <svg></svg>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <br/>
+
+
+                        <script>
+                            var json = JSON.parse('[{"key":"Agency","color":"#F9A7A7","values":[{"label":"Readmissions","value":18}]},{"key":"County","color":"#1f77b4","values":[{"label":"Readmissions","value":25}]},{"key":"State","color":"#0000b4","values":[{"label":"Readmissions","value":15}]}]');
+                            plotServices(json);
+                            function plotServices(servicesJson) {
+                                nv.addGraph(function() {
+                                    var chart = nv.models.multiBarHorizontalChart()
+                                            .x(function(d) { return d.label })
+                                            .y(function(d) { return d.value })
+                                            .margin({top: 30, right: 20, bottom: 30, left: 100})
+                                            .showValues(true)
+                                            .tooltips(false)
+                                            .showControls(false);
+                                    chart.yAxis
+                                            .tickFormat(d3.format(',.2f'));
+
+                                    d3.select('#readmission-chart svg')
+                                            .datum(servicesJson)
+                                            .transition().duration(500)
+                                            .call(chart);
+                                    nv.utils.windowResize(chart.update);
+                                    return chart;
+                                });
+                            }
+                        </script>
+
+                        <script>
+                            var historicalBarChart = [
+                                {
+                                    key: "Counseled for Alcohol Dependence",
+
+                                    values: [
+                                        {
+                                            "label" : "18 to 24 years old" ,
+                                            "value" : 29.765957771107
+                                        } ,
+                                        {
+                                            "label" : "25 to 34 years old" ,
+                                            "value" : 32.807804682612
+                                        } ,
+                                        {
+                                            "label" : "35 to 44 years old" ,
+                                            "value" : 62.45946739256
+                                        } ,
+                                        {
+                                            "label" : "45 to 54 years old" ,
+                                            "value" : 0.19434030906893
+                                        } ,
+                                        {
+                                            "label" : "55 to 64 years old" ,
+                                            "value" : 32.079782601442
+                                        } ,
+                                        {
+                                            "label" : "65 years old or greater" ,
+                                            "value" : 13.925743130903
+                                        }
+                                    ]
+                                }
+                            ];
+
+                            plotCounseledCharts(historicalBarChart);
+                            function plotCounseledCharts(data) {
+                                nv.addGraph(function() {
+                                    nv.addGraph(function() {
+                                        var chart = nv.models.discreteBarChart()
+                                                .x(function(d) { return d.label })
+                                                .y(function(d) { return d.value })
+                                                .staggerLabels(true)
+                                                .tooltips(false)
+                                                .showValues(true)
+
+                                        d3.select('#counseled-chart svg')
+                                                .datum(data)
+                                                .transition().duration(500)
+                                                .call(chart)
+                                        ;
+
+                                        nv.utils.windowResize(chart.update);
+
+                                        return chart;
+                                    });
+
+                                });
+                            }
+                        </script>
+
+                        <script>
+                            var utilizationData = JSON.parse('[{"label":"Utilized","value":100},{"label":"Not Utilized","value":200}]');
+                            plotUtilizationCharts(utilizationData);
+                            function plotUtilizationCharts(data) {
+                                nv.addGraph(function() {
+                                    var chart = nv.models.pieChart()
+                                            .x(function(d) { return d.label })
+                                            .y(function(d) { return d.value })
+                                            .showLabels(true);
+
+                                    d3.select("#emergency-chart svg")
+                                            .datum(data)
+                                            .transition().duration(1200)
+                                            .call(chart);
+
+                                    return chart;
+                                });
+                            }
+
+                        </script>
+
+                        <script>
+                            var admittedData = JSON.parse('[{"key":"Patients not screened","values":[[1383329150717,20],[1384625078000,18],[1385921078000,14],[1387217078000,18],[1388513078000,16],[1389809078000,13],[1391105078000,18],[1392401078000,15],[1393697078000,12],[1394993078000,20],[1396289078000,20],[1397585078000,24],[1398881078000,15],[1400177078000,12],[1401473078000,25],[1402769078000,14],[1404065078000,25],[1405361078000,22],[1406657078000,13],[1407953078000,20],[1409249078000,12],[1410545078000,17],[1411841078000,11],[1413137078000,22],[1414433078000,13]]},{"key":"Patients screened","values":[[1383329150717,5],[1384625078000,8],[1385921078000,4],[1387217078000,8],[1388513078000,6],[1389809078000,3],[1391105078000,8],[1392401078000,5],[1393697078000,2],[1394993078000,5],[1396289078000,2],[1397585078000,4],[1398881078000,1],[1400177078000,1],[1401473078000,5],[1402769078000,4],[1404065078000,2],[1405361078000,2],[1406657078000,3],[1407953078000,2],[1409249078000,1],[1410545078000,1],[1411841078000,1],[1413137078000,2],[1414433078000,3]]}]');
+                            plotAdmittedCharts(admittedData);
+                            function plotAdmittedCharts(data) {
+                                nv.addGraph(function() {
+                                    var chart = nv.models.stackedAreaChart()
+                                                    .x(function(d) { return d[0] })
+                                                    .y(function(d) { return d[1] })
+                                                    .clipEdge(true)
+                                                    .useInteractiveGuideline(true);
+
+                                    chart.xAxis
+                                            .showMaxMin(false)
+                                            .tickFormat(function(d) { return d3.time.format('%x')(new Date(d)) });
+
+                                    chart.yAxis
+                                            .tickFormat(d3.format(',.2f'));
+
+                                    d3.select('#admitted-chart svg')
+                                            .datum(data)
+                                            .transition().duration(500).call(chart);
+
+                                    nv.utils.windowResize(chart.update);
+
+                                    return chart;
+                                });
+                            }
+                        </script>
+
+
+
+                        <!-- PAGE CONTENT ENDS -->
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.page-content -->
+
+            <!--<div ng-include="loginpage" ></div>-->
+
+        </div><!-- /.main-content -->
+
+    </div><!-- /.main-container-inner -->
+
+    <a href="" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse" ng-click="gotoTop()">
+        <i class="icon-double-angle-up icon-only bigger-110"></i>
+    </a>
+</div><!-- /.main-container -->

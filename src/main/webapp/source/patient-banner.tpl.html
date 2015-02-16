@@ -1,0 +1,17 @@
+<div class="page-header patient-banner-info" ng-if="selectedPatient">
+    <span class="col-sm-4">
+         <h1><span class="banner-patient-name"> {{selectedPatient.lastName}}</span>, <span class="banner-patient-name"> {{selectedPatient.firstName}}</span></h1>
+    </span>
+
+    <span class="col-sm-3">
+        <span class="patient-banner-label">Born</span> <span class="patient-banner-value"> {{selectedPatient.birthDate}}</span>
+    </span>
+
+    <span class="col-sm-3">
+        <span class="patient-banner-label">Gender</span> <span class="patient-banner-value"> {{selectedPatient.administrativeGenderCodeDisplayName}}</span>
+    </span>
+
+    <span class="col-sm-2">
+        <span class="patient-banner-label">Patient ID</span> <span class="patient-banner-value"> {{selectedPatient.id}}</span>
+    </span>
+</div><!-- /.page-header -->
